@@ -1,0 +1,42 @@
+version: "3.7"
+
+services:
+  main-container:
+    container_name: main-container
+    restart: always
+    build:
+      context: ./container
+      dockerfile: Dockerfile
+    volumes:
+      - "./container:/app"
+    ports:
+      - "6999:6999"
+    environment:
+      - NODE_ENV=dev
+      - REACT_APP_URL=http://localhost:3000
+      - REACT_APP_CATS_HOST=http://localhost:3002
+      - REACT_APP_DOGS_HOST=http://localhost:3001
+  dogs:
+    container_name: dogs
+    restart: always
+    build:
+      context: ./dogs-app
+      dockerfile: Dockerfile
+    volumes:
+      - "./dogs-app:/app"
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=dev
+  cats:
+    container_name: cats
+    restart: always
+    build:
+      context: ./cats-app
+      dockerfile: Dockerfile
+    volumes:
+      - "./cats-app:/app"
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=dev
